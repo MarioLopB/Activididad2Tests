@@ -53,10 +53,20 @@ class TestApi(unittest.TestCase):
         self.assertEqual(response.status, http.client.OK)
         self.assertEqual(response.read().decode(), "12")
 
+    def test_api_multiply_invalid_operand(self):
+        response = self._get("/calc/multiply/5/i")
+        self.assertEqual(response.status, http.client.BAD_REQUEST)
+        self.assertEqual(response.read().decode(), "Operator cannot be converted to number")
+
     def test_api_divide(self):
         response = self._get("/calc/divide/3/2")
         self.assertEqual(response.status, http.client.OK)
         self.assertEqual(response.read().decode(), "1.5")
+
+    def test_api_divide_invalid_operand(self):
+        response = self._get("/calc/divide/a/2")
+        self.assertEqual(response.status, http.client.BAD_REQUEST)
+        self.assertEqual(response.read().decode(), "Operator cannot be converted to number")
 
     def test_api_divide_by_zero(self):
         response = self._get("/calc/divide/5/0")
@@ -68,10 +78,20 @@ class TestApi(unittest.TestCase):
         self.assertEqual(response.status, http.client.OK)
         self.assertEqual(response.read().decode(), "8")
 
+    def test_api_power_invalid_operand(self):
+        response = self._get("/calc/power/4/r")
+        self.assertEqual(response.status, http.client.BAD_REQUEST)
+        self.assertEqual(response.read().decode(), "Operator cannot be converted to number")
+
     def test_api_sqrt(self):
         response = self._get("/calc/sqrt/9")
         self.assertEqual(response.status, http.client.OK)
         self.assertEqual(response.read().decode(), "3.0")
+
+    def test_api_sqrt_invalid_operand(self):
+        response = self._get("/calc/sqrt/s")
+        self.assertEqual(response.status, http.client.BAD_REQUEST)
+        self.assertEqual(response.read().decode(), "Operator cannot be converted to number")
 
     def test_api_sqrt_negative(self):
         response = self._get("/calc/sqrt/-1")
