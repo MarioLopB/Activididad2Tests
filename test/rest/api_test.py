@@ -20,7 +20,7 @@ class TestApi(unittest.TestCase):
         url = f"{BASE_URL}{path}"
         try:
             return urlopen(url, timeout=DEFAULT_TIMEOUT)
-        except Exception as e:
+        except HTTPError as e:
             return e
 
     def test_api_root(self):
